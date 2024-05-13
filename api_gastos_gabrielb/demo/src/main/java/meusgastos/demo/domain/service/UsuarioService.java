@@ -39,7 +39,7 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
        if(usuario.isEmpty()){
         throw new ResourceNotFoundException("não foi possivel obter o usuário com o id" + id);
        }
-       return mapper.map(usuario, UsuarioResponseDTO.class);
+       return mapper.map(usuario.get(), UsuarioResponseDTO.class);
     }
 
     @Override
@@ -66,6 +66,7 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         usuario.setId(id);
+        usuario.setDataCadastro(new Date());
         usuario = usuarioRepository.save(usuario);
         return mapper.map(usuario, UsuarioResponseDTO.class);
     }
