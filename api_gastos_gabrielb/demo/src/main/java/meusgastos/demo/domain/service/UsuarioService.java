@@ -4,19 +4,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import meusgastos.demo.domain.dto.usuario.UsuarioRequestDTO;
 import meusgastos.demo.domain.dto.usuario.UsuarioResponseDTO;
 import meusgastos.demo.domain.exception.ResourceNotFoundException;
 import meusgastos.demo.domain.exception.BadRequestException;
 import meusgastos.demo.domain.model.Usuario;
 import meusgastos.demo.domain.repository.UsuarioRepository;
-
 
 
 @Service
@@ -26,7 +23,9 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
     private UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper mapper;
-
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
     @Override
     public List<UsuarioResponseDTO> obterTodos() {
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -53,6 +52,9 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         // Criptografar senha
+        String senha = bCryptPasswordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senha);
+        usuario.setId(null);
         usuario.setDataCadastro(new Date());
         usuario = usuarioRepository.save(usuario);
         return mapper.map(usuario, UsuarioResponseDTO.class);
@@ -65,6 +67,7 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
             throw new BadRequestException("Email e senha são obrigatórios");
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
+        usuario.setSenha(dto.getSenha());
         usuario.setId(id);
         usuario.setDataCadastro(new Date());
         usuario = usuarioRepository.save(usuario);
@@ -81,5 +84,5 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
         usuario.setDataInativacao(new Date());
         usuarioRepository.save(usuario);
     }
-    
+
 }
