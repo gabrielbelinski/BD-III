@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import meusgastos.demo.domain.dto.usuario.UsuarioRequestDTO;
 import meusgastos.demo.domain.dto.usuario.UsuarioResponseDTO;
 import meusgastos.demo.domain.exception.ResourceNotFoundException;
-import meusgastos.demo.domain.exception.BadRequestException;
+import meusgastos.demo.domain.exception.ResourceBadRequestException;
 import meusgastos.demo.domain.model.Usuario;
 import meusgastos.demo.domain.repository.UsuarioRepository;
 
@@ -44,11 +44,11 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
     @Override
     public UsuarioResponseDTO cadastrar(UsuarioRequestDTO dto) {
         if(dto.getEmail() == null || dto.getSenha() == null){
-            throw new BadRequestException("Email e senha são obrigatórios");
+            throw new ResourceBadRequestException("Email e senha são obrigatórios");
         }
         Optional<Usuario> optUsuario = usuarioRepository.findByEmail(dto.getEmail());
         if(optUsuario.isPresent()){
-            throw new BadRequestException("Já existe um usuário cadastrado com este email");
+            throw new ResourceBadRequestException("Já existe um usuário cadastrado com este email");
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         // Criptografar senha
@@ -64,7 +64,7 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
     public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
         obterPorId(id);
         if(dto.getEmail() == null || dto.getSenha() == null){
-            throw new BadRequestException("Email e senha são obrigatórios");
+            throw new ResourceBadRequestException("Email e senha são obrigatórios");
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         usuario.setSenha(dto.getSenha());

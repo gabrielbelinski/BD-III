@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Date;
 import meusgastos.demo.common.ConversorData;
-import meusgastos.demo.domain.exception.BadRequestException;
+import meusgastos.demo.domain.exception.ResourceBadRequestException;
 import meusgastos.demo.domain.exception.ResourceNotFoundException;
 import meusgastos.demo.domain.model.ErroResposta;
 
@@ -20,8 +20,8 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErroResposta> handlerBadRequestException(BadRequestException ex){
+    @ExceptionHandler(ResourceBadRequestException.class)
+    public ResponseEntity<ErroResposta> handlerBadRequestException(ResourceBadRequestException ex){
         String dataHora = ConversorData.converterDateParaDataHora(new Date());
         ErroResposta erro = new ErroResposta(dataHora, HttpStatus.BAD_REQUEST.value(), "BAD REQUEST", ex.getMessage());
         return new ResponseEntity<>(erro, HttpStatus.BAD_REQUEST);
