@@ -14,7 +14,6 @@ import meusgastos.demo.domain.dto.titulos.TituloRequestDTO;
 import meusgastos.demo.domain.dto.titulos.TituloResponseDTO;
 import meusgastos.demo.domain.exception.ResourceNotFoundException;
 import meusgastos.demo.domain.exception.ResourceBadRequestException;
-import meusgastos.demo.domain.model.CentroDeCusto;
 import meusgastos.demo.domain.model.Titulo;
 import meusgastos.demo.domain.model.Usuario;
 import meusgastos.demo.domain.repository.TituloRepository;
@@ -76,12 +75,12 @@ public class TituloService implements ICRUDService<TituloRequestDTO, TituloRespo
         tituloRepository.deleteById(id);
     }
 
-    /* public List<TituloResponseDTO> obterPorDataDeVencimento(String periodoInicial, String periodoFinal){
+    public List<TituloResponseDTO> obterPorDataDeVencimento(String periodoInicial, String periodoFinal){
         List<Titulo> titulos = tituloRepository.obterFluxoCaixaPorDataVencimento(periodoInicial, periodoFinal);
         return titulos.stream()
         .map(titulo -> mapper.map(titulo, TituloResponseDTO.class))
         .collect(Collectors.toList());
-    } */
+    } 
 
     private void validarTitulo(TituloRequestDTO dto){
         if(dto.getTipo() == null || dto.getDataVencimento() == null
