@@ -7,7 +7,6 @@ import meusgastos.demo.domain.Enum.ETipoTitulo;
 import meusgastos.demo.domain.dto.centrodecusto.CentroDeCustoResponseDTO;
 
 public class TituloResponseDTO {
-    
     private Long id;
     private String descricao;
     private ETipoTitulo tipo;
@@ -18,7 +17,6 @@ public class TituloResponseDTO {
     private Date dataVencimento;
     private Date dataPagamento;
     private String observacao;
-    
     public Long getId() {
         return id;
     }
@@ -80,4 +78,5 @@ public class TituloResponseDTO {
         this.observacao = observacao;
     }
 
+    
 }

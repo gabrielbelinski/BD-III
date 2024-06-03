@@ -17,6 +17,7 @@ public class TituloRequestDTO {
     private Date dataVencimento;
     private Date dataPagamento;
     private String observacao;
+    
     public Long getId() {
         return id;
     }
@@ -77,8 +78,6 @@ public class TituloRequestDTO {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
-
-
     
-
+    
 }

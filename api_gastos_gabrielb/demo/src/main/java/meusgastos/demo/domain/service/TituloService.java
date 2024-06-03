@@ -14,13 +14,13 @@ import meusgastos.demo.domain.dto.titulos.TituloRequestDTO;
 import meusgastos.demo.domain.dto.titulos.TituloResponseDTO;
 import meusgastos.demo.domain.exception.ResourceNotFoundException;
 import meusgastos.demo.domain.exception.ResourceBadRequestException;
+import meusgastos.demo.domain.model.CentroDeCusto;
 import meusgastos.demo.domain.model.Titulo;
 import meusgastos.demo.domain.model.Usuario;
 import meusgastos.demo.domain.repository.TituloRepository;
 
 @Service
-public class TituloService implements ICRUDService<TituloRequestDTO, TituloResponseDTO> {
-
+public class TituloService implements ICRUDService<TituloRequestDTO, TituloResponseDTO>{
     @Autowired
     private TituloRepository tituloRepository;
     @Autowired
@@ -29,16 +29,19 @@ public class TituloService implements ICRUDService<TituloRequestDTO, TituloRespo
     @Override
     public List<TituloResponseDTO> obterTodos() {
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("Teste " + usuario);
+        System.out.println("Teste" + usuario);
         List<Titulo> titulos = tituloRepository.findByUsuario(usuario);
-        return titulos.stream().map(titulo -> mapper.map(titulo, TituloResponseDTO.class)).collect(Collectors.toList());
+        return titulos.stream()
+        .map(titulo -> mapper.map(titulo, TituloResponseDTO.class))
+        .collect(Collectors.toList());
+
     }
 
     @Override
     public TituloResponseDTO obterPorId(Long id) {
         Optional<Titulo> optTitulo = tituloRepository.findById(id);
         if(optTitulo.isEmpty()){
-            throw new ResourceNotFoundException("Não foi possivel encontrar o titulo com o id " + id);
+            throw new ResourceNotFoundException("Não foi possível encontrar o título com o id: " + id);
         }
         return mapper.map(optTitulo.get(), TituloResponseDTO.class);
     }
@@ -46,7 +49,7 @@ public class TituloService implements ICRUDService<TituloRequestDTO, TituloRespo
     @Override
     public TituloResponseDTO cadastrar(TituloRequestDTO dto) {
         validarTitulo(dto);
-        Titulo titulo = mapper.map(dto, Titulo.class);
+        Titulo titulo = mapper.map(dto,Titulo.class);
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         titulo.setUsuario(usuario);
         titulo.setId(null);
@@ -75,13 +78,17 @@ public class TituloService implements ICRUDService<TituloRequestDTO, TituloRespo
 
     /* public List<TituloResponseDTO> obterPorDataDeVencimento(String periodoInicial, String periodoFinal){
         List<Titulo> titulos = tituloRepository.obterFluxoCaixaPorDataVencimento(periodoInicial, periodoFinal);
-        return titulos.stream().map(titulo -> mapper.map(titulo, TituloResponseDTO.class)).collect(Collectors.toList());
+        return titulos.stream()
+        .map(titulo -> mapper.map(titulo, TituloResponseDTO.class))
+        .collect(Collectors.toList());
     } */
 
     private void validarTitulo(TituloRequestDTO dto){
-        if(dto.getTipo() == null || dto.getDataVencimento() == null || dto.getValor() == null || dto.getDescricao() == null){
-            throw new ResourceBadRequestException("Titulo Inválido - os campos são obrigatórios!");
+        if(dto.getTipo() == null || dto.getDataVencimento() == null
+        || dto.getValor() == null || dto.getDescricao() == null){
+            throw new ResourceBadRequestException("Título Inválido - os campos são obrigatórios!");
         }
     }
+
     
 }

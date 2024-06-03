@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/titulos")
-
 public class TituloController {
-
     @Autowired
     private TituloService tituloService;
 
@@ -33,7 +31,7 @@ public class TituloController {
     public ResponseEntity<List<TituloResponseDTO>> obterTodos(){
         return ResponseEntity.ok(tituloService.obterTodos());
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<TituloResponseDTO> obterPorId(@PathVariable Long id){
         return ResponseEntity.ok(tituloService.obterPorId(id));
@@ -56,7 +54,5 @@ public class TituloController {
         tituloService.deletar(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }

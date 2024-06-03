@@ -3,6 +3,7 @@ package meusgastos.demo.domain.model;
 import java.util.Date;
 import java.util.List;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import meusgastos.demo.domain.Enum.ETipoTitulo;
 
 @Entity
-public class Titulo{
+public class Titulo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idTitulo")
@@ -35,76 +36,98 @@ public class Titulo{
     private List<CentroDeCusto> centrosDeCustos;
     @Column(nullable = false)
     private Double valor;
-    private Date dataCadastro, dataReferencia, dataVencimento, dataPagamento;
+    private Date dataCadastro;
+    private Date dataReferencia;
+    private Date dataVencimento;
+    private Date dataPagamento;
     @Column(columnDefinition = "TEXT")
     private String observacao;
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getDescricao() {
         return descricao;
     }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
     public Usuario getUsuario() {
         return usuario;
     }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
     public ETipoTitulo getTipo() {
         return tipo;
     }
+
     public void setTipo(ETipoTitulo tipo) {
         this.tipo = tipo;
     }
+
     public List<CentroDeCusto> getCentrosDeCustos() {
         return centrosDeCustos;
     }
+
     public void setCentrosDeCustos(List<CentroDeCusto> centrosDeCustos) {
         this.centrosDeCustos = centrosDeCustos;
     }
+
     public Double getValor() {
         return valor;
     }
+
     public void setValor(Double valor) {
         this.valor = valor;
     }
+
     public Date getDataCadastro() {
         return dataCadastro;
     }
+
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+
     public Date getDataReferencia() {
         return dataReferencia;
     }
+
     public void setDataReferencia(Date dataReferencia) {
         this.dataReferencia = dataReferencia;
     }
+
     public Date getDataVencimento() {
         return dataVencimento;
     }
+
     public void setDataVencimento(Date dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
+
     public Date getDataPagamento() {
         return dataPagamento;
     }
+
     public void setDataPagamento(Date dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
+
     public String getObservacao() {
         return observacao;
     }
+
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
-
-
 }
